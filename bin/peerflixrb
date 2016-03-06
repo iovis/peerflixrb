@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), *%w( .. lib ))
+
+require 'addic7ed'
+require 'optparse'
+require 'peerflixrb'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = 'Usage: peerflixrb [options] <search>'
+
+  opts.on_tail('-h', '--help', 'Show this message') do
+    puts opts
+    exit
+  end
+
+  # TODO: add some options
+end.parse!
+
+# Join arguments to create the search term
+options[:search] = ARGV.join ' '
+
+unless options[:search].empty?
+  # TODO: handle failing and invalid searches
+  kat = Peerflixrb::KAT.new(options[:search])
+
+  # Subtitle search
+  begin
+    ep = Addic7ed::Episode.new(kat.filename)
+    # TODO: option to choose language (default: en)
+    sub_file = File.basename ep.download_best_subtitle!('en')
+  rescue Addic7ed::EpisodeNotFound
+    puts "Episode not found on Addic7ed : #{ep.video_file.filename}."
+  rescue Addic7ed::ShowNotFound
+    puts "Show not found on Addic7ed : #{ep.video_file.filename}."
+  rescue Addic7ed::NoSubtitleFound
+    puts "No (acceptable) subtitle has been found on Addic7ed for #{ep.video_file.filename}."
+  rescue Addic7ed::InvalidFilename
+    puts "Addic7ed gem doesn't like that format, try 'S01E01' format. Skipping subtitles."
+  end
+
+  # Peerflix command build
+  command = "peerflix '#{kat.magnet}'"
+  command << " --subtitles '#{sub_file}'" unless sub_file.nil?
+  # TODO: choose video player (default: VLC)
+  command << ' --vlc'
+  # TODO: pipe options and leave these as default
+  command << ' -- --fullscreen'
+
+  system command
+
+  # Cleaning up
+  FileUtils.rm sub_file unless sub_file.nil?
+end
