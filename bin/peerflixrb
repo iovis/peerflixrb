@@ -9,26 +9,37 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = 'Usage: peerflixrb [options] <search>'
 
+  # TODO: maybe create option for letting load a specific local file too
+  opts.on('-s', '--with-subtitles', 'Play with subtitles') do |s|
+    options[:subtitles] = s
+  end
+
+  opts.on('-l LANGUAGE', '--language LANGUAGE', 'Language code to look subtitles for (default: English)') do |l|
+    options[:language] = l
+  end
+
   opts.on_tail('-h', '--help', 'Show this message') do
     puts opts
     exit
   end
-
-  # TODO: add some options
 end.parse!
+
+# Default language: English
+options[:language] ||= 'en'
 
 # Join arguments to create the search term
 options[:search] = ARGV.join ' '
+exit if options[:search].empty?
 
-unless options[:search].empty?
-  # TODO: handle failing and invalid searches
-  kat = Peerflixrb::KAT.new(options[:search])
+# main
+# TODO: handle failing and invalid searches
+kat = Peerflixrb::KAT.new(options[:search])
 
-  # Subtitle search
+# Subtitle search
+if options[:subtitles]
   begin
     ep = Addic7ed::Episode.new(kat.filename)
-    # TODO: option to choose language (default: en)
-    sub_file = File.basename ep.download_best_subtitle!('en')
+    sub_file = File.basename(ep.download_best_subtitle!(options[:language]))
   rescue Addic7ed::EpisodeNotFound
     puts "Episode not found on Addic7ed : #{ep.video_file.filename}."
   rescue Addic7ed::ShowNotFound
@@ -36,19 +47,19 @@ unless options[:search].empty?
   rescue Addic7ed::NoSubtitleFound
     puts "No (acceptable) subtitle has been found on Addic7ed for #{ep.video_file.filename}."
   rescue Addic7ed::InvalidFilename
-    puts "Addic7ed gem doesn't like that format, try 'S01E01' format. Skipping subtitles."
+    puts "Addic7ed gem doesn't like the format passed. Skipping subtitles."
   end
-
-  # Peerflix command build
-  command = "peerflix '#{kat.magnet}'"
-  command << " --subtitles '#{sub_file}'" unless sub_file.nil?
-  # TODO: choose video player (default: VLC)
-  command << ' --vlc'
-  # TODO: pipe options and leave these as default
-  command << ' -- --fullscreen'
-
-  system command
-
-  # Cleaning up
-  FileUtils.rm sub_file unless sub_file.nil?
 end
+
+# Peerflix command build
+command = "peerflix '#{kat.magnet}'"
+command << " --subtitles '#{sub_file}'" unless sub_file.nil?
+# TODO: choose video player (default: VLC)
+command << ' --vlc'
+# TODO: pipe options and leave these as default
+command << ' -- --fullscreen'
+
+system command
+
+# Cleaning up
+FileUtils.rm sub_file unless sub_file.nil?
