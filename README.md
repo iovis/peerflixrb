@@ -1,27 +1,25 @@
-[![Build Status](https://travis-ci.org/iovis9/peerflixrb.svg?branch=master)](https://travis-ci.org/iovis9/peerflixrb)
-[![Gem Version](https://badge.fury.io/rb/peerflixrb.svg)](https://badge.fury.io/rb/peerflixrb)
-
-# Peerflixrb
+[![Build Status](https://travis-ci.org/iovis9/peerflixrb.svg?branch=master)](https://travis-ci.org/iovis9/peerflixrb) [![Gem Version](https://badge.fury.io/rb/peerflixrb.svg)](https://badge.fury.io/rb/peerflixrb)
+# Peerflixrb 
 
 Wrapper for [peerflix](https://github.com/mafintosh/peerflix) with automatic search through [Kickass Torrents](kat.cr) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed](https://github.com/michaelbaudino/addic7ed-ruby)).
 
-## Installation
-
+## Requirements
 Make sure you have **peerflix** installed:
 
     $ npm install -g peerflix
 
-And then install the gem:
+## Installation
+Install the gem:
 
     $ gem install peerflixrb
 
 ## Usage
 
-Just pass what you want to watch and it will try to fetch the file and play it through peerflix:
+Pass a string with what you want to watch and it will try to fetch the file and play it through peerflix:
 
     $ peerflixrb suits s05e12
 
-You can play with subtitles with ```-s``` option (Default: English).
+You can pass the flag ```-s``` and it will try to find the subtitles for you (Default: English).
 
     $ peerflixrb -s Game Of Thrones S05E01
 
@@ -29,6 +27,9 @@ Choose the language with ```-l LANGUAGE``` ([Available Languages](https://github
 
     $ peerflixrb -sl es-es Breaking Bad s05e03
 
+## Future plans
+- Choose a local file as subtitles file
+- Choose player (currently VLC)
 
 ## Contributing
 
