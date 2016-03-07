@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Wrapper for peerflix with automatic search through KAT and Addic7ed.'
   # spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = 'https://github.com/iovis9/peerflixrb'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'guard-rspec'
-  spec.add_development_dependency 'factory_girl'  # needed?
+  spec.add_development_dependency 'factory_girl'
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'pry'
 end
