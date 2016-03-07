@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/peerflixrb.svg)](https://badge.fury.io/rb/peerflixrb)
 # Peerflixrb
 
 Wrapper for [peerflix](https://github.com/mafintosh/peerflix) with automatic search through [Kickass Torrents](kat.cr) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed](https://github.com/michaelbaudino/addic7ed-ruby)).
