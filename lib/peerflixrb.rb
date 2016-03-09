@@ -1,15 +1,30 @@
-require 'peerflixrb/version'
+require 'addic7ed'
+require 'cgi'
+require 'erb'
 require 'nokogiri'
 require 'open-uri'
-require 'erb'
+require 'peerflixrb/version'
 require 'yaml'
 
 module Peerflixrb
+  def self.find_subtitles(video_file, language)
+    episode = Addic7ed::Episode.new(video_file)
+    return File.basename episode.download_best_subtitle!(language)
+  rescue Addic7ed::EpisodeNotFound
+    puts "Episode not found on Addic7ed : #{episode.video_file.filename}."
+  rescue Addic7ed::ShowNotFound
+    puts "Show not found on Addic7ed : #{episode.video_file.filename}."
+  rescue Addic7ed::NoSubtitleFound
+    puts "No (acceptable) subtitle has been found on Addic7ed for #{episode.video_file.filename}."
+  rescue Addic7ed::InvalidFilename
+    puts "Addic7ed gem doesn't like the format passed. Skipping subtitles."
+  end
+
   ##
   # Extract file info and magnet link from the first match of your search
   # KAT.new("Suits s05e16 1080p")
   class KAT
-    attr_accessor :url, :page, :filename, :magnet, :info_hash
+    attr_accessor :url
 
     def initialize(search)
       @url = "https://kat.cr/usearch/#{ERB::Util.url_encode(search)}/"
@@ -20,7 +35,7 @@ module Peerflixrb
     end
 
     def filename
-      @filename ||= CGI.unescape(params['name']) + '.' + params['extension']
+      @filename ||= "#{CGI.unescape(params['name'])}.#{params['extension']}"
     end
 
     def magnet
@@ -38,8 +53,9 @@ module Peerflixrb
     end
 
     def extract_hash
-      magnet_params = CGI.parse URI.parse(magnet).query  # Extract magnet properties to a Hash
-      magnet_params['xt'][0].match(/[0-9A-F]+/).to_s
+      # Extract magnet properties to a Hash
+      magnet_params = CGI.parse(URI.parse(magnet).query)
+      magnet_params['xt'].first.match(/[0-9A-F]+/).to_s
     end
   end
 end
