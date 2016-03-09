@@ -12,6 +12,14 @@ optparse = OptionParser.new do |opts|
     options[:find_subtitles] = s
   end
 
+  opts.on('-m', '--mplayer', 'Autoplay in mplayer*') do
+    options[:video_player] = 'mplayer'
+  end
+
+  opts.on('-v', '--vlc', 'Autoplay in vlc*') do
+    options[:video_player] = 'vlc'
+  end
+
   opts.on('-t SUBTITLE_FILE', '--subtitles SUBTITLE_FILE', 'Use local subtitles') do |t|
     options[:subtitles] = t
   end
@@ -22,6 +30,7 @@ optparse = OptionParser.new do |opts|
 
   opts.on_tail('-h', '--help', 'Show this message') do
     puts opts
+    puts '* Autoplay can take several seconds to start since it needs to wait for the first piece'
     exit
   end
 end
@@ -53,9 +62,7 @@ sub_file = if options[:find_subtitles]
 # Peerflix command build
 command = "peerflix '#{kat.magnet}'"
 command << " --subtitles '#{sub_file}'" if sub_file
-# TODO: choose video player (default: VLC)
-command << ' --vlc'
-# TODO: pipe options and leave these as default
+command << " --#{options[:video_player]}" if options[:video_player]
 command << ' -- --fullscreen'
 
 system command
@@ -63,4 +70,4 @@ system command
 # Cleaning up
 video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
 FileUtils.cp(sub_file, File.dirname(video_file)) if sub_file
-puts "Your downloads will be in #{video_file} for 3 days :)"
+puts "Your downloads will be in #{cache_dir} for 3 days :)"

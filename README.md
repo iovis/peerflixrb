@@ -2,7 +2,7 @@
 
 # Peerflixrb
 
-Wrapper for [peerflix](https://github.com/mafintosh/peerflix) with automatic search through [Kickass Torrents](kat.cr) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed](https://github.com/michaelbaudino/addic7ed-ruby)). It currently uses [VLC](http://www.videolan.org/vlc/index.html) as the player.
+Wrapper for [peerflix](https://github.com/mafintosh/peerflix) with automatic search through [Kickass Torrents](kat.cr) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed](https://github.com/michaelbaudino/addic7ed-ruby)).
 
 
 ## Requirements
@@ -10,8 +10,6 @@ Wrapper for [peerflix](https://github.com/mafintosh/peerflix) with automatic sea
 Make sure you have **peerflix** installed:
 
     $ npm install -g peerflix
-
-It currently supports VLC only as the media player (more to come in future releases).
 
 
 ## Installation
@@ -28,7 +26,7 @@ Pass a string with what you want to watch and it will try to fetch the file and 
 
 You can play the video with subtitles with the ```-s``` option (Default: English). It will try and find the best match in [Addic7ed](http://www.addic7ed.com/).
 
-    $ peerflixrb -s Game Of Thrones S05E01
+    $ peerflixrb -s Game Of Thrones S05E01 1080p
 
 Choose the language with ```-l LANGUAGE``` ([Available Languages](https://github.com/michaelbaudino/addic7ed-ruby/blob/master/lib/addic7ed/common.rb))
 
@@ -36,14 +34,17 @@ Choose the language with ```-l LANGUAGE``` ([Available Languages](https://github
 
 If you prefer to use your own subtitles file, you can do that with the ```-t SUBTITLE_FILE``` option.
 
-    $ peerflix better call saul s02e04 -t subtitle_file.srt
+    $ peerflixrb better call saul s02e04 -t subtitle_file.srt
+
+You can autoplay in VLC or MPlayer with the corresponding option.
+
+    $ peerflixrb --vlc the big bang theory s09e16 hdtv
 
 
-## Future plans
+## Cache
 
-- Use cache if any.
-- Choose player (currently VLC).
-
+The original peerflix takes care of cache so you can resume your downloads or watch them again.
+peerflixrb will tell you where they are located so you can do as you like or leave them there till your OS takes care of it (it's stored in /tmp).
 
 ## Contributing
 

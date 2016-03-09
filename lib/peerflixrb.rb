@@ -55,7 +55,7 @@ module Peerflixrb
     def extract_hash
       # Extract magnet properties to a Hash
       magnet_params = CGI.parse(URI.parse(magnet).query)
-      magnet_params['xt'].first.match(/[0-9A-F]+/).to_s
+      magnet_params['xt'].first.match(/[0-9A-F]+/).to_s.downcase
     end
   end
 end
