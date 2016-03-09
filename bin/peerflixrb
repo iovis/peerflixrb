@@ -41,6 +41,7 @@ options[:language] ||= 'en'
 # main
 # TODO: handle failing and invalid searches
 kat = Peerflixrb::KAT.new(options[:search])
+cache_dir = "/tmp/torrent-stream/#{kat.info_hash}"
 
 # Subtitle search
 sub_file = if options[:find_subtitles]
@@ -60,4 +61,5 @@ command << ' -- --fullscreen'
 system command
 
 # Cleaning up
-FileUtils.rm sub_file unless sub_file.nil?
+video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
+FileUtils.cp(sub_file, File.dirname(video_file)) if sub_file
