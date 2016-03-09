@@ -63,3 +63,4 @@ system command
 # Cleaning up
 video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
 FileUtils.cp(sub_file, File.dirname(video_file)) if sub_file
+puts "Your downloads will be in #{video_file} for 3 days :)"
