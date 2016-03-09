@@ -9,9 +9,12 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = 'Usage: peerflixrb [options] <search>'
 
-  # TODO: maybe create option for letting load a specific local file too
-  opts.on('-s', '--with-subtitles', 'Play with subtitles') do |s|
-    options[:subtitles] = s
+  opts.on('-s', '--find-subtitles', 'Find subtitles on Addic7ed') do |s|
+    options[:find_subtitles] = s
+  end
+
+  opts.on('-t SUBTITLE_FILE', '--subtitles SUBTITLE_FILE', 'Use local subtitles') do |t|
+    options[:subtitles] = t
   end
 
   opts.on('-l LANGUAGE', '--language LANGUAGE', 'Language code to look subtitles for (default: English)') do |l|
@@ -36,7 +39,7 @@ exit if options[:search].empty?
 kat = Peerflixrb::KAT.new(options[:search])
 
 # Subtitle search
-if options[:subtitles]
+if options[:find_subtitles]
   begin
     ep = Addic7ed::Episode.new(kat.filename)
     sub_file = File.basename(ep.download_best_subtitle!(options[:language]))
@@ -54,6 +57,7 @@ end
 # Peerflix command build
 command = "peerflix '#{kat.magnet}'"
 command << " --subtitles '#{sub_file}'" unless sub_file.nil?
+command << " --subtitles '#{options[:subtitles]}'" if options[:subtitles]
 # TODO: choose video player (default: VLC)
 command << ' --vlc'
 # TODO: pipe options and leave these as default
