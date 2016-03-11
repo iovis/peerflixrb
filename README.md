@@ -36,9 +36,11 @@ If you prefer to use your own subtitles file, you can do that with the ```-t SUB
 
     $ peerflixrb better call saul s02e04 -t subtitle_file.srt
 
-You can autoplay in VLC or MPlayer with the corresponding option.
+You can autoplay in VLC or MPlayer with the corresponding option (Default: VLC).
 
-    $ peerflixrb --vlc the big bang theory s09e16 hdtv
+    $ peerflixrb --mplayer the big bang theory s09e16 hdtv
+
+Or you can just let it download without autoplaying with ```-n```.
 
 
 ## Cache

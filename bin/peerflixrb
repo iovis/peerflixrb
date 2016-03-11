@@ -4,7 +4,11 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), *%w( .. lib ))
 require 'optparse'
 require 'peerflixrb'
 
-options = {}
+options = {
+  language: 'en',
+  video_player: 'vlc'
+}
+
 optparse = OptionParser.new do |opts|
   opts.banner = 'Usage: peerflixrb [options] <search>'
 
@@ -12,11 +16,15 @@ optparse = OptionParser.new do |opts|
     options[:find_subtitles] = s
   end
 
+  opts.on('-n', '--no-player', "Don't autoplay") do
+    options[:video_player] = nil
+  end
+
   opts.on('-m', '--mplayer', 'Autoplay in mplayer*') do
     options[:video_player] = 'mplayer'
   end
 
-  opts.on('-v', '--vlc', 'Autoplay in vlc*') do
+  opts.on('-v', '--vlc', 'Autoplay in vlc* (Default)') do
     options[:video_player] = 'vlc'
   end
 
@@ -43,9 +51,6 @@ if options[:search].empty?
   puts optparse # Show usage if no search
   exit
 end
-
-# Default language: English
-options[:language] ||= 'en'
 
 # main
 # TODO: handle failing and invalid searches
