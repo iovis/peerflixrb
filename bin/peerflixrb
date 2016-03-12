@@ -54,6 +54,8 @@ end
 
 # main
 # TODO: handle failing and invalid searches
+require 'pry'
+binding.pry
 kat = Peerflixrb::KAT.new(options[:search])
 cache_dir = "/tmp/torrent-stream/#{kat.info_hash}"
 
@@ -70,9 +72,15 @@ command << " --subtitles '#{sub_file}'" if sub_file
 command << " --#{options[:video_player]}" if options[:video_player]
 command << ' -- --fullscreen'
 
-system command
-
-# Cleaning up
-video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
-FileUtils.cp(sub_file, File.dirname(video_file)) if sub_file
-puts "Your downloads will be in #{cache_dir} for 3 days :)"
+begin
+  # Execute peerflix
+  system command
+rescue Interrupt
+  puts
+  puts 'Interrupted!'
+ensure
+  # Cleaning up
+  video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
+  FileUtils.mv(sub_file, File.dirname(video_file)) if sub_file
+  puts "Your downloads will be in #{cache_dir} for 3 days :)"
+end
