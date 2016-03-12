@@ -40,7 +40,7 @@ You can autoplay in VLC or MPlayer with the corresponding option (Default: VLC).
 
     $ peerflixrb --mplayer the big bang theory s09e16 hdtv
 
-Or you can just let it download without autoplaying with ```-n```.
+Or you can just let it download without autoplaying with ```-n``` or ```--no-player```.
 
 
 ## Cache

@@ -24,16 +24,17 @@ optparse = OptionParser.new do |opts|
     options[:video_player] = 'mplayer'
   end
 
-  opts.on('-v', '--vlc', 'Autoplay in vlc* (Default)') do
-    options[:video_player] = 'vlc'
-  end
-
   opts.on('-t SUBTITLE_FILE', '--subtitles SUBTITLE_FILE', 'Use local subtitles') do |t|
     options[:subtitles] = t
   end
 
   opts.on('-l LANGUAGE', '--language LANGUAGE', 'Language code to look subtitles for (default: English)') do |l|
     options[:language] = l
+  end
+
+  opts.on('-v', '--version', 'Print version and exit') do
+    puts "Peerflixrb v#{Peerflixrb::VERSION}"
+    exit
   end
 
   opts.on_tail('-h', '--help', 'Show this message') do
@@ -47,8 +48,11 @@ optparse.parse!
 
 # Join arguments to create the search term
 options[:search] = ARGV.join(' ')
+
+# Show usage if no search
 if options[:search].empty?
-  puts optparse # Show usage if no search
+  puts optparse
+  puts '* Autoplay can take several seconds to start since it needs to wait for the first piece'
   exit
 end
 
