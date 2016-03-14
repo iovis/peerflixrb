@@ -68,6 +68,13 @@ sub_file = if options[:find_subtitles]
              options[:subtitles]
            end
 
+# Was there a problem with the subtitle?
+if options[:find_subtitles] && sub_file.nil?
+  puts 'Do you want to continue? [Y/n]'
+  response = $stdin.gets.chomp.downcase
+  exit if response == 'n' || response == 'no'
+end
+
 # Peerflix command build
 command = "peerflix '#{kat.magnet}'"
 command << " --subtitles '#{sub_file}'" if sub_file
