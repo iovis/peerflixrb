@@ -58,8 +58,6 @@ end
 
 # main
 # TODO: handle failing and invalid searches
-require 'pry'
-binding.pry
 kat = Peerflixrb::KAT.new(options[:search])
 cache_dir = "/tmp/torrent-stream/#{kat.info_hash}"
 
