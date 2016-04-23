@@ -57,12 +57,19 @@ if options[:search].empty?
 end
 
 # main
-# TODO: handle failing and invalid searches
+puts "Searching KAT for #{options[:search]}"
 kat = Peerflixrb::KAT.new(options[:search])
+
+if not kat.results_found
+  puts "No results found for #{options[:search]}"
+  exit
+end
+
 cache_dir = "/tmp/torrent-stream/#{kat.info_hash}"
 
 # Subtitle search
 sub_file = if options[:find_subtitles]
+             puts "Querying Addic7ed for subtitles for #{kat.filename}"
              Peerflixrb.find_subtitles(kat.filename, options[:language])
            elsif options[:subtitles]
              options[:subtitles]
@@ -83,9 +90,9 @@ command << ' -- --fullscreen'
 
 begin
   # Execute peerflix
+  puts 'Executing peerflix'
   system command
 rescue Interrupt
-  puts
   puts 'Interrupted!'
 ensure
   # Cleaning up

@@ -34,6 +34,10 @@ module Peerflixrb
       @page ||= Nokogiri::HTML(open(@url))
     end
 
+    def results_found
+      @results_found ||= page.at('p:contains("did not match any documents")').nil?
+    end
+
     def filename
       @filename ||= "#{CGI.unescape(params['name'])}.#{params['extension']}"
     end
