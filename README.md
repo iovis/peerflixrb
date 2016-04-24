@@ -2,7 +2,7 @@
 
 # Peerflixrb
 
-Wrapper for [peerflix](https://github.com/mafintosh/peerflix) with automatic search through [Kickass Torrents](kat.cr) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed](https://github.com/michaelbaudino/addic7ed-ruby)).
+Wrapper for [peerflix](https://github.com/mafintosh/peerflix) with automatic search through [Kickass Torrents](kat.cr), [YifySubtitles](http://www.yifysubtitles.com/) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed](https://github.com/michaelbaudino/addic7ed-ruby)).
 
 
 ## Requirements
@@ -23,16 +23,18 @@ Install the gem:
 Pass a string with what you want to watch and it will search KAT with your query and present you with the first 5 results for you to choose. The file selected will then be sent to **peerflix**.
 
     $ peerflixrb Suits s05e12
+    $ peerflixrb The Godfather II
 
 If you prefer to autoplay the first matched result, use the ```-y``` flag:
 
-    $ peerflixrb -y Archer s07e02
+    $ peerflixrb -y Archer s07e02 1080p
 
-You can play the video with subtitles with the ```-s``` option (Default: English). It will try and find the best match in [Addic7ed](http://www.addic7ed.com/).
+You can play the video with subtitles with the ```-s``` option (Default: English). It will try and find the best match in [YifySubtitles](http://www.yifysubtitles.com/) if it's a movie and if [Addic7ed](http://www.addic7ed.com/) if it's a TV Show.
 
-    $ peerflixrb -s Game Of Thrones S05E01 1080p
+    $ peerflixrb -s Birdman
+    $ peerflixrb -s The Wire s04e05
 
-Choose the language with ```-l LANGUAGE``` ([Available Languages](https://github.com/michaelbaudino/addic7ed-ruby/blob/master/lib/addic7ed/common.rb))
+Choose the language with ```-l LANGUAGE``` ([Available Languages](https://github.com/michaelbaudino/addic7ed-ruby/blob/master/lib/addic7ed/common.rb)). Currently only for TV Shows (Choosing movie subtitles language will come soon!)
 
     $ peerflixrb -sl es-es Breaking Bad s05e03
 
