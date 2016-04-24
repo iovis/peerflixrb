@@ -41,7 +41,7 @@ module Commands
 
       # Subtitle search
       sub_file = if options[:find_subtitles]
-                   cli.say "#{'Searching Addic7ed for subtitles for'.yellow} #{link.filename.blue}"
+                   cli.say "Searching Addic7ed for subtitles for #{link.filename.blue}".yellow
                    find_subtitles(link.filename, options[:language])
                  elsif options[:subtitles]
                    options[:subtitles]
@@ -49,7 +49,7 @@ module Commands
 
       # Was there a problem with the subtitle?
       if options[:find_subtitles] && sub_file.nil?
-        continue = cli.agree('Do you want to continue? [Y/n]'.green) { |q| q.default = 'yes' }
+        continue = cli.agree "Do you want to continue? #{'[y/n]'.yellow}".green
 
         unless continue
           # If :auto_select, exit program

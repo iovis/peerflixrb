@@ -60,37 +60,42 @@ if options[:search].empty?
   exit
 end
 
-# main
-system 'clear'
-cli = Commands::cli
-cli.say "#{'Searching KAT for'.yellow} #{options[:search].blue}"
-kat_search = KAT.new(options[:search])
-
-# Did it find results?
-if not kat_search.results_found
-  cli.say "#{'No results found for'.red} #{options[:search].blue}"
-  exit
-end
-
-# Choose link and subtitles
-link, sub_file = Commands.choose_video_and_subtitles(options, kat_search)
-
-# Peerflix command build
-command = "peerflix '#{link.magnet}'"
-command << " --subtitles '#{sub_file}'" if sub_file
-command << " --#{options[:video_player]}" if options[:video_player]
-command << ' -- --fullscreen'
-
+# main program
 begin
+  system 'clear'
+  cli = Commands::cli
+
+  # KAT Search
+  cli.say "Searching KAT for #{options[:search].blue}".yellow
+  kat_search = KAT.new(options[:search])
+
+  # Did it find results?
+  if not kat_search.results_found
+    cli.say "No results found for #{options[:search].blue}".red
+    exit
+  end
+
+  # Choose link and subtitles
+  link, sub_file = Commands.choose_video_and_subtitles(options, kat_search)
+
+  # Peerflix command build
+  command = "peerflix '#{link.magnet}'"
+  command << " --subtitles '#{sub_file}'" if sub_file
+  command << " --#{options[:video_player]}" if options[:video_player]
+  command << ' -- --fullscreen'
+
   # Execute peerflix
-  cli.say 'Executing peerflix'.yellow
+  cli.say "Executing peerflix with #{link.filename.blue} ".yellow
+  cli.say "and #{sub_file.blue}".yellow if sub_file
   system command
-rescue Interrupt
+rescue Interrupt, EOFError
   cli.say 'Interrupted!'.red
 ensure
   # Cleaning up
-  cache_dir = "/tmp/torrent-stream/#{link.info_hash}"
-  video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
-  FileUtils.mv(sub_file, File.dirname(video_file)) if sub_file
-  cli.say "Your downloads will be in #{cache_dir} for 3 days :)".yellow
+  if link
+    cache_dir = "/tmp/torrent-stream/#{link.info_hash}"
+    video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
+    FileUtils.mv(sub_file, File.dirname(video_file)) if sub_file
+    cli.say "Your downloads will be in #{cache_dir.blue} #{'for 3 days :)'.yellow}".yellow
+  end
 end
