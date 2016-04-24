@@ -77,7 +77,7 @@ begin
   end
 
   # Choose link and subtitles
-  link, sub_file = Peerflixrb::Commands.choose_video_and_subtitles(options, kat_search)
+  link, sub_file = Peerflixrb::Commands.choose_video_and_subtitles(kat_search, options)
 
   # Peerflix command build
   command = "peerflix '#{link.magnet}'"
