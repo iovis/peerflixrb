@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe KAT do
+describe Peerflixrb::KAT do
   subject { build :kat }
   let(:url) { 'https://kat.cr/usearch/suits%20s05e16/' }
 
@@ -24,13 +24,13 @@ describe KAT do
   end
 
   context '#links' do
-    it "generates #{KAT::NUMBER_OF_LINKS} links" do
-      expect(subject.links.size).to eq KAT::NUMBER_OF_LINKS
+    it "generates #{Peerflixrb::KAT::NUMBER_OF_LINKS} links" do
+      expect(subject.links.size).to eq Peerflixrb::KAT::NUMBER_OF_LINKS
     end
 
     it 'generates Link instances' do
       link = subject.links.first
-      expect(link).to be_a(Link)
+      expect(link).to be_a(Peerflixrb::Link)
     end
   end
 end

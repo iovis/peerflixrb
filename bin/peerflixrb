@@ -64,11 +64,11 @@ end
 # main program
 begin
   system 'clear'
-  cli = Commands::cli
+  cli = Peerflixrb::Commands::cli
 
   # KAT Search
   cli.say "Searching KAT for #{options[:search].blue}".yellow
-  kat_search = KAT.new(options[:search])
+  kat_search = Peerflixrb::KAT.new(options[:search])
 
   # Did it find results?
   if not kat_search.results_found
@@ -77,7 +77,7 @@ begin
   end
 
   # Choose link and subtitles
-  link, sub_file = Commands.choose_video_and_subtitles(options, kat_search)
+  link, sub_file = Peerflixrb::Commands.choose_video_and_subtitles(kat_search, options)
 
   # Peerflix command build
   command = "peerflix '#{link.magnet}'"
