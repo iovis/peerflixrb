@@ -63,7 +63,6 @@ end
 
 # main program
 begin
-  system 'clear'
   cli = Peerflixrb::Commands::cli
 
   # KAT Search

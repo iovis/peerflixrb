@@ -21,6 +21,8 @@ module Peerflixrb
 
     def results_found
       @results_found ||= page.at('p:contains("did not match any documents")').nil?
+    rescue OpenURI::HTTPError
+      @results_found = false
     end
 
     def links
