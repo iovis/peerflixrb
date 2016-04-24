@@ -20,9 +20,13 @@ Install the gem:
 
 ## Usage
 
-Pass a string with what you want to watch and it will try to fetch the file and play it through peerflix:
+Pass a string with what you want to watch and it will search KAT with your query and present you with the first 5 results for you to choose. The file selected will then be sent to **peerflix**.
 
-    $ peerflixrb suits s05e12
+    $ peerflixrb Suits s05e12
+
+If you prefer to autoplay the first matched result, use the ```-y``` flag:
+
+    $ peerflixrb -y Archer s07e02
 
 You can play the video with subtitles with the ```-s``` option (Default: English). It will try and find the best match in [Addic7ed](http://www.addic7ed.com/).
 
@@ -34,11 +38,11 @@ Choose the language with ```-l LANGUAGE``` ([Available Languages](https://github
 
 If you prefer to use your own subtitles file, you can do that with the ```-t SUBTITLE_FILE``` option.
 
-    $ peerflixrb better call saul s02e04 -t subtitle_file.srt
+    $ peerflixrb Better Call Saul s02e04 -t subtitle_file.srt
 
 You can autoplay in VLC or MPlayer with the corresponding option (Default: VLC).
 
-    $ peerflixrb --mplayer the big bang theory s09e16 hdtv
+    $ peerflixrb --mplayer The Big Bang Theory s09e16 HDTV
 
 Or you can just let it download without autoplaying with ```-n``` or ```--no-player```.
 

@@ -3,6 +3,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), *%w( .. lib ))
 
 require 'optparse'
 require 'peerflixrb'
+require 'peerflixrb/commands'
 
 options = {
   language: 'en',
