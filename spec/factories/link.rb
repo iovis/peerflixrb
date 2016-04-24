@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :link, class: Link do
+  factory :link, class: Peerflixrb::Link do
     # FactoryGirl needs double curly braces for hash variables,
     # otherwise it thinks you are passing a block
     params {{
