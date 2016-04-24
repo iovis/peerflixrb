@@ -18,20 +18,7 @@ module Peerflixrb
       end
     end
 
-    def self.find_subtitles(video_file, language)
-      episode = Addic7ed::Episode.new(video_file)
-      return File.basename episode.download_best_subtitle!(language)
-    rescue Addic7ed::EpisodeNotFound
-      cli.say 'Episode not found on Addic7ed'.red
-    rescue Addic7ed::ShowNotFound
-      cli.say 'Show not found on Addic7ed'.red
-    rescue Addic7ed::NoSubtitleFound
-      cli.say 'No (acceptable) subtitle has been found on Addic7ed'.red
-    rescue Addic7ed::InvalidFilename
-      cli.say 'Addic7ed gem could not parse the filename correctly'.red
-    end
-
-    def self.choose_video_and_subtitles(options, kat_search)
+    def self.choose_video_and_subtitles(kat_search, options)
       # Proactively declare them because they would be lost in the block scope
       link = nil
       sub_file = nil
@@ -42,8 +29,8 @@ module Peerflixrb
 
         # Subtitle search
         sub_file = if options[:find_subtitles]
-                     cli.say "Searching Addic7ed for subtitles for #{link.filename.blue}".yellow
-                     find_subtitles(link.filename, options[:language])
+                     cli.say "Searching subtitles for #{link.filename.blue}".yellow
+                     find_subtitles(link.filename, options)
                    elsif options[:subtitles]
                      options[:subtitles]
                    end
@@ -69,6 +56,39 @@ module Peerflixrb
       end
 
       [link, sub_file]
+    end
+
+    # Helper methods (private)
+    def self.find_subtitles(video_file, options)
+      # Imdb search based on initial command input
+      movie = Imdb.find(options[:search])
+
+      if movie
+        # TODO Choose language
+        find_movie_subtitles(movie, 'english')
+      else
+        find_tv_subtitles(video_file, options[:language])
+      end
+    end
+
+    def self.find_movie_subtitles(movie, language)
+      sub_file = YifySubtitles.download(movie.imdb_id, language)
+      return sub_file unless sub_file.nil?
+      cli.say "Could not find subtitles for #{movie}".red
+    end
+
+    def self.find_tv_subtitles(video_file, language)
+      # TV Show search based on video filename
+      episode = Addic7ed::Episode.new(video_file)
+      return File.basename episode.download_best_subtitle!(language)
+    rescue Addic7ed::EpisodeNotFound
+      cli.say 'Episode not found on Addic7ed'.red
+    rescue Addic7ed::ShowNotFound
+      cli.say 'Show not found on Addic7ed'.red
+    rescue Addic7ed::NoSubtitleFound
+      cli.say 'No (acceptable) subtitle has been found on Addic7ed'.red
+    rescue Addic7ed::InvalidFilename
+      cli.say 'Addic7ed gem could not parse the filename correctly'.red
     end
   end
 end
