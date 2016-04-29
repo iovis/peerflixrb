@@ -28,9 +28,9 @@ module Peerflixrb
     private
 
     def extract_hash
-      # Extract magnet properties to a Hash
+      # Extract magnet properties to a Hash and then parse the sha1 info hash
       magnet_params = CGI.parse(URI.parse(magnet).query)
-      magnet_params['xt'].first.match(/[0-9A-F]+/).to_s.downcase
+      magnet_params['xt'].first.match(/[0-9A-Fa-f]{20,}/).to_s.downcase
     end
   end
 end

@@ -12,7 +12,7 @@ module Peerflixrb
 
     def self.select_link(kat_search)
       cli.choose(*kat_search.links) do |menu|
-        menu.header = 'Choose which file'.yellow
+        menu.header = 'Choose file'
         menu.default = '1'
         menu.select_by = :index
       end
@@ -37,7 +37,7 @@ module Peerflixrb
 
         # Was there a problem with the subtitle?
         if options[:find_subtitles] && sub_file.nil?
-          continue = cli.agree "Do you want to continue? #{'[y/n]'.yellow}".green
+          continue = cli.agree "Do you want to continue? #{'[y/n]'.yellow}".blue
 
           unless continue
             # If :auto_select, exit program
