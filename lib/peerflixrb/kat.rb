@@ -34,8 +34,14 @@ module Peerflixrb
     def generate_links
       links = []
       crawled_links = page.css('.iaconbox > div')
-      crawled_links[0..NUMBER_OF_LINKS - 1].each do |link|
-        links << Link.new(YAML.load(link['data-sc-params']))
+      seeders = page.css('td.green')
+      leechers = page.css('td.red')
+
+      crawled_links[0..NUMBER_OF_LINKS - 1].each_with_index do |link, i|
+        params = YAML.load(link['data-sc-params'])
+        params['seeders'] = seeders[i].text
+        params['leechers'] = leechers[i].text
+        links << Link.new(params)
       end
 
       return links

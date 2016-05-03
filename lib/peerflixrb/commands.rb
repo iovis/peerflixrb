@@ -11,8 +11,9 @@ module Peerflixrb
     HighLine.colorize_strings
 
     def self.select_link(kat_search)
+      cli.say "Choose file (#{'seeders'.green}/#{'leechers'.red}):"
+
       cli.choose(*kat_search.links) do |menu|
-        menu.header = 'Choose file'
         menu.default = '1'
         menu.select_by = :index
       end
