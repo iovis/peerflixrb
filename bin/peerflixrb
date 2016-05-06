@@ -99,7 +99,7 @@ ensure
   if link
     cache_dir = "/tmp/torrent-stream/#{link.info_hash}"
     video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
-    FileUtils.mv(sub_file, File.dirname(video_file)) if sub_file
+    FileUtils.mv(sub_file, File.dirname(video_file)) if sub_file && video_file
     cli.say "Your downloads will be in #{cache_dir.blue} #{'for 3 days :)'.yellow}".yellow
   end
 end
