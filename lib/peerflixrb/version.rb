@@ -1,3 +1,3 @@
 module Peerflixrb
-  VERSION = '1.2.0'.freeze
+  VERSION = '1.2.2'.freeze
 end
