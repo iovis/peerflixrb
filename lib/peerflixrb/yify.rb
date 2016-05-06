@@ -39,6 +39,8 @@ module Peerflixrb
           open(sub_file, 'w') do |f|
             f << io.read
           end
+
+          break # We found a subtitle file
         end
       end
 
