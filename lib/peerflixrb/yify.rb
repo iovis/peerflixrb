@@ -44,6 +44,7 @@ module Peerflixrb
         end
       end
 
+      # return subtitle filename
       sub_file
     end
   end

@@ -1,25 +1,16 @@
-require 'addic7ed'
+require 'addic7ed_downloader'
 require 'highline'
 
 module Peerflixrb
-  module Commands
-    class << self
-      attr_accessor :cli
+  class Commands
+    attr_accessor :cli
+
+    def initialize
+      @cli = HighLine.new
+      HighLine.colorize_strings
     end
 
-    self.cli = HighLine.new
-    HighLine.colorize_strings
-
-    def self.select_link(kat_search)
-      cli.say "Choose file (#{'seeders'.green}/#{'leechers'.red}):"
-
-      cli.choose(*kat_search.links) do |menu|
-        menu.default = '1'
-        menu.select_by = :index
-      end
-    end
-
-    def self.choose_video_and_subtitles(kat_search, options)
+    def choose_video_and_subtitles(kat_search, options)
       # Proactively declare them because they would be lost in the block scope
       link = nil
       sub_file = nil
@@ -38,7 +29,7 @@ module Peerflixrb
 
         # Was there a problem with the subtitle?
         if options[:find_subtitles] && sub_file.nil?
-          continue = cli.agree "Do you want to continue? #{'[y/n]'.yellow}".blue
+          continue = cli.agree "Could not find subtitles. Do you want to continue? #{'[y/n]'.yellow}".blue
 
           unless continue
             # If :auto_select, exit program
@@ -59,37 +50,44 @@ module Peerflixrb
       [link, sub_file]
     end
 
-    # Helper methods (private)
-    def self.find_subtitles(video_file, options)
-      # Imdb search based on initial command input
-      movie = Imdb.find(options[:search])
+    private
 
-      if movie
-        # TODO Choose language
-        find_movie_subtitles(movie, 'english')
-      else
-        find_tv_subtitles(video_file, options[:language])
+    def select_link(kat_search)
+      cli.say "Choose file (#{'seeders'.green}/#{'leechers'.red}):"
+
+      cli.choose(*kat_search.links) do |menu|
+        menu.default = '1'
+        menu.select_by = :index
       end
     end
 
-    def self.find_movie_subtitles(movie, language)
-      sub_file = YifySubtitles.download(movie.imdb_id, language)
-      return sub_file unless sub_file.nil?
-      cli.say "Could not find subtitles for #{movie}".red
+    def find_subtitles(video_file, options)
+      # Matches format 's06e02'? => TV Show
+      if options[:search][/s\d{1,2}e\d{1,2}/i]
+        find_tv_subtitles(video_file, options)
+      else
+        movie = Imdb.find(options[:search])
+        find_movie_subtitles(movie, 'english')
+      end
     end
 
-    def self.find_tv_subtitles(video_file, language)
+    def find_tv_subtitles(video_file, options)
       # TV Show search based on video filename
-      episode = Addic7ed::Episode.new(video_file)
-      return File.basename episode.download_best_subtitle!(language)
-    rescue Addic7ed::EpisodeNotFound
-      cli.say 'Episode not found on Addic7ed'.red
-    rescue Addic7ed::ShowNotFound
-      cli.say 'Show not found on Addic7ed'.red
-    rescue Addic7ed::NoSubtitleFound
-      cli.say 'No (acceptable) subtitle has been found on Addic7ed'.red
-    rescue Addic7ed::InvalidFilename
-      cli.say 'Addic7ed gem could not parse the filename correctly'.red
+      search = Addic7edDownloader::Search.by_string(options[:search], lang: options[:language], filename: video_file)
+      return search.download_best unless options[:choose_subtitles]
+
+      # Choose subtitle
+      subtitle = cli.choose(*search.results) do |menu|
+        menu.default = '1'
+        menu.select_by = :index
+      end
+
+      search.download_subtitle(subtitle)
+    end
+
+    def find_movie_subtitles(movie, language)
+      sub_file = YifySubtitles.download(movie.imdb_id, language)
+      return sub_file unless sub_file.nil?
     end
   end
 end
