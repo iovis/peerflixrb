@@ -5,7 +5,11 @@ require 'nokogiri'
 
 # TEST
 # require 'peerflixrb'
+# reload-method Addic7ed
 # search = Addic7ed::Search.new('game of thrones', 6, 2)
+# search.tags = %w(Home 720p WEB-DL 450MB MkvCage mkv)
+# search.find_best_subtitle
+# search.results.map(&:downloads)
 # subtitles = search.results
 # su = subtitles[0]
 # p su
@@ -34,11 +38,28 @@ module Addic7ed
       @results ||= build_subtitles_list
     end
 
+    def find_best_subtitle
+      return if results.empty?
+
+      # We can refine the search with tags
+      # Only version match
+      unless @tags.empty?
+        results.each do |subtitle|
+          return subtitle if @tags.include?(subtitle.version) && subtitle.completed?
+        end
+      end
+
+      # If no matches, return most downloaded
+      results.first
+    end
+
     def download_best
-      download_subtitle(results.first)
+      download_subtitle(find_best_subtitle)
     end
 
     def download_subtitle(subtitle)
+      return unless subtitle
+
       # Addic7ed needs the correct Referer to be set
       response = HTTParty.get(
         BASE_URL + subtitle.url,
