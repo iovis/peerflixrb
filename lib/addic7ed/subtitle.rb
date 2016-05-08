@@ -16,8 +16,9 @@ module Addic7ed
     end
 
     def to_s
-      str = "#{@version} (#{@language}): #{@complete} [#{@downloads} Downloads]"
-      str << "— #{@notes}" unless @notes.empty?
+      str = "Version #{@version} (#{@language}): #{@complete} [#{@downloads} Downloads]"
+      str << " — #{@notes}" unless @notes.empty?
+      str
     end
 
     # We can sort by downloads number
