@@ -73,8 +73,7 @@ module Addic7ed
         list << Addic7ed::Subtitle.new(subtitle) if subtitle.at('.NewsTitle')
       end
 
-      # Return in number of downloads order (desc)
-      subtitles.reverse!
+      subtitles.sort!.reverse!
     end
   end
 end
