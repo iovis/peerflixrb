@@ -1,5 +1,3 @@
-# def works_with?(tag)
-#
 module Addic7ed
   class Subtitle
     include Comparable

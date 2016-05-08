@@ -1,4 +1,4 @@
-require 'addic7ed/search'
+require 'addic7ed/search_filename'
 require 'peerflixrb/imdb'
 require 'peerflixrb/kat'
 require 'peerflixrb/link'
