@@ -1,5 +1,6 @@
-require 'peerflixrb/version'
+require 'addic7ed/search'
+require 'peerflixrb/imdb'
 require 'peerflixrb/kat'
 require 'peerflixrb/link'
-require 'peerflixrb/imdb'
+require 'peerflixrb/version'
 require 'peerflixrb/yify'

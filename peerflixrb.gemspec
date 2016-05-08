@@ -20,7 +20,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'nokogiri', '~> 1.6'
-  spec.add_runtime_dependency 'addic7ed', '~> 2.0'
   spec.add_runtime_dependency 'highline', '~> 1.7'
   spec.add_runtime_dependency 'httparty', '~> 0.13'
   spec.add_runtime_dependency 'rubyzip', '~> 1.2'
