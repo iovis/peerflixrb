@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['David Marchante']
   spec.email         = ['davidmarchan@gmail.com']
 
-  spec.summary       = 'Wrapper for peerflix with automatic search through KAT and Addic7ed.'
-  # spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = 'Wrapper for peerflix with automatic search through KickAss Torrents, Yifysubtitles and Addic7ed.'
+  spec.description   = %q{With peerflixrb you can search for movies and TV shows and stream them directly on your favorite video player! You can choose the torrent and the subtitles file or you can let it choose the best for you.}
   spec.homepage      = 'https://github.com/iovis9/peerflixrb'
   spec.license       = 'MIT'
 
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.executables   = 'peerflixrb'
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'addic7ed_downloader', '~> 0.1'
+  spec.add_runtime_dependency 'addic7ed_downloader', '~> 0.2'
   spec.add_runtime_dependency 'nokogiri', '~> 1.6'
   spec.add_runtime_dependency 'highline', '~> 1.7'
   spec.add_runtime_dependency 'httparty', '~> 0.13'
