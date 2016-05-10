@@ -91,7 +91,7 @@ begin
 
   # Peerflix command build
   command = "peerflix '#{link.magnet}'"
-  command << " --subtitles '#{sub_file}'" if sub_file
+  command << " --subtitles \"#{sub_file}\"" if sub_file
   command << " --#{options[:video_player]}" if options[:video_player]
   command << ' -- --fullscreen'
 
@@ -101,6 +101,8 @@ begin
   system command
 rescue Interrupt, EOFError
   cli.say 'Interrupted!'.red
+rescue SocketError
+  cli.say "Couldn't perform action. Are you online?".red
 ensure
   # Cleaning up
   if link
