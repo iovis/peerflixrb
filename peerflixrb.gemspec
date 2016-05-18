@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.executables   = 'peerflixrb'
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'addic7ed_downloader', '~> 0.2'
+  spec.add_runtime_dependency 'addic7ed_downloader', '~> 1.0'
   spec.add_runtime_dependency 'nokogiri', '~> 1.6'
   spec.add_runtime_dependency 'highline', '~> 1.7'
   spec.add_runtime_dependency 'httparty', '~> 0.13'

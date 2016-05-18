@@ -73,7 +73,8 @@ module Peerflixrb
 
     def find_tv_subtitles(video_file, options)
       # TV Show search based on video filename
-      search = Addic7edDownloader::Search.by_string(options[:search], lang: options[:language], filename: video_file)
+      search = Addic7edDownloader::Search.by_filename(options[:search], lang: options[:language])
+      search.extract_tags(video_file)
       return search.download_best unless options[:choose_subtitles]
 
       # Choose subtitle
