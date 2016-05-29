@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/iovis9/peerflixrb.svg?branch=master)](https://travis-ci.org/iovis9/peerflixrb) [![Gem Version](https://badge.fury.io/rb/peerflixrb.svg)](https://badge.fury.io/rb/peerflixrb)
+[![Gem Version](https://badge.fury.io/rb/peerflixrb.svg)](https://badge.fury.io/rb/peerflixrb) [![Build Status](https://travis-ci.org/iovis9/peerflixrb.svg?branch=master)](https://travis-ci.org/iovis9/peerflixrb) [![Dependency Status](https://gemnasium.com/badges/github.com/iovis9/peerflixrb.svg)](https://gemnasium.com/github.com/iovis9/peerflixrb)
 
 # Peerflixrb
 
