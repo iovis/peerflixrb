@@ -38,6 +38,10 @@ optparse = OptionParser.new do |opts|
     options[:video_player] = 'mpv'
   end
 
+  opts.on('-u', '--dlna', 'Autoplay with DLNA') do
+    options[:video_player] = 'dlna'
+  end
+
   opts.on('-t SUBTITLE_FILE', '--subtitles SUBTITLE_FILE', 'Use local subtitles') do |t|
     options[:subtitles] = t
   end

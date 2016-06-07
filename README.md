@@ -7,9 +7,9 @@ Wrapper for [peerflix](https://github.com/mafintosh/peerflix) with automatic sea
 
 ## Requirements
 
-Make sure you have **peerflix** installed:
+Make sure you have my fork of **peerflix** installed:
 
-    $ npm install -g peerflix
+    $ npm install -g iovis9/peerflix
 
 
 ## Installation
