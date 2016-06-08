@@ -4,6 +4,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), *%w( .. lib ))
 require 'optparse'
 require 'peerflixrb'
 require 'peerflixrb/commands'
+require 'kat_search'
 
 options = {
   language: 'en',
@@ -82,10 +83,10 @@ begin
 
   # KAT Search
   cli.say "Searching KAT for #{options[:search].blue}".yellow
-  kat_search = Peerflixrb::KAT.new(options[:search])
+  kat_search = KatSearch::Search.new(options[:search])
 
   # Did it find results?
-  if not kat_search.results_found
+  unless kat_search.results_found?
     cli.say "No results found for #{options[:search].blue}".red
     exit
   end
