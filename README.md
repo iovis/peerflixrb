@@ -48,6 +48,8 @@ You can autoplay in VLC or mpv with the corresponding option (Default: VLC).
 
     $ peerflixrb --mpv The Big Bang Theory s09e16 HDTV
 
+It works with DLNA too with the ```-u``` option (subtitles too!).
+
 Or you can just let it download without autoplaying with ```-n``` or ```--no-player```.
 
 
