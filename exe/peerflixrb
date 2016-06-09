@@ -81,6 +81,9 @@ begin
   commands = Peerflixrb::Commands.new
   cli = commands.cli
 
+  # Check requirements
+  commands.check_requirements
+
   # KAT Search
   cli.say "Searching KAT for #{options[:search].blue}".yellow
   kat_search = KatSearch::Search.new(options[:search])

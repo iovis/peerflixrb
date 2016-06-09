@@ -10,6 +10,18 @@ module Peerflixrb
       HighLine.colorize_strings
     end
 
+    def check_requirements
+      unless system('node --version > /dev/null 2>&1')
+        cli.say 'Nodejs is required to make it work.'.red
+        exit
+      end
+
+      unless system('peerflix --version > /dev/null 2>&1')
+        cli.say 'peerflix is required. Type "npm install -g iovis9/peerflix" in your shell to install it.'.red
+        exit
+      end
+    end
+
     def choose_video_and_subtitles(kat_search, options)
       # Proactively declare them because they would be lost in the block scope
       link = nil
