@@ -105,7 +105,7 @@ begin
   command = "peerflix '#{link.magnet}'"
   command << " --subtitles \"#{sub_file}\"" if sub_file
   command << " --#{options[:video_player]}" if options[:video_player]
-  command << ' -- --fullscreen'
+  command << ' -- --fullscreen' if %w(vlc mpv).include? options[:video_player]
 
   # Execute peerflix
   cli.say "Executing peerflix with #{link.filename.blue} ".yellow
