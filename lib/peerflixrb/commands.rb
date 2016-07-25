@@ -22,14 +22,14 @@ module Peerflixrb
       end
     end
 
-    def choose_video_and_subtitles(kat_search, options)
+    def choose_video_and_subtitles(torrent_search, options)
       # Proactively declare them because they would be lost in the block scope
       link = nil
       sub_file = nil
 
       loop do
         # Choose file
-        link = (options[:auto_select]) ? kat_search.links.first : select_link(kat_search)
+        link = (options[:auto_select]) ? torrent_search.links.first : select_link(torrent_search)
 
         # Subtitle search
         sub_file = if options[:find_subtitles]
@@ -64,10 +64,10 @@ module Peerflixrb
 
     private
 
-    def select_link(kat_search)
+    def select_link(torrent_search)
       cli.say "Choose file (#{'seeders'.green}/#{'leechers'.red}):"
 
-      cli.choose(*kat_search.links) do |menu|
+      cli.choose(*torrent_search.links) do |menu|
         menu.default = '1'
         menu.select_by = :index
       end

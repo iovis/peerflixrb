@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), *%w( .. lib ))
 require 'optparse'
 require 'peerflixrb'
 require 'peerflixrb/commands'
-require 'kat_search'
+require 'zooqle_search'
 
 options = {
   language: 'en',
@@ -88,18 +88,18 @@ begin
   # Check requirements
   commands.check_requirements
 
-  # KAT Search
-  cli.say "Searching KAT for #{options[:search].blue}".yellow
-  kat_search = KatSearch::Search.new(options[:search])
+  # Torrent Search
+  cli.say "Searching torrent for #{options[:search].blue}".yellow
+  torrent_search = ZooqleSearch::Search.new(options[:search])
 
   # Did it find results?
-  unless kat_search.results_found?
+  unless torrent_search.results_found?
     cli.say "No results found for #{options[:search].blue}".red
     exit
   end
 
   # Choose link and subtitles
-  link, sub_file = commands.choose_video_and_subtitles(kat_search, options)
+  link, sub_file = commands.choose_video_and_subtitles(torrent_search, options)
 
   # Peerflix command build
   command = "peerflix '#{link.magnet}'"
