@@ -16,8 +16,8 @@ module Peerflixrb
         exit
       end
 
-      unless system('peerflix --version > /dev/null 2>&1')
-        cli.say 'peerflix is required. Type "npm install -g iovis9/peerflix" in your shell to install it.'.red
+      unless system('webtorrent --version > /dev/null 2>&1')
+        cli.say 'webtorrent is required. Type "npm install -g iovis9/webtorrent-cli" in your shell to install it.'.red
         exit
       end
     end

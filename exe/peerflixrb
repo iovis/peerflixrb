@@ -18,12 +18,12 @@ optparse = OptionParser.new do |opts|
     options[:find_subtitles] = true
   end
 
-  opts.on('-S', '--choose-subtitles', 'Choose subtitles from Addic7ed') do
+  opts.on('-S', '--choose-subtitles', 'Choose subtitles (only Addic7ed)') do
     options[:find_subtitles] = true
     options[:choose_subtitles] = true
   end
 
-  opts.on('-n', '--no-player', "Don't autoplay") do
+  opts.on('-n', '--no-player', "Don't autoplay (just download)") do
     options[:video_player] = nil
   end
 
@@ -43,9 +43,9 @@ optparse = OptionParser.new do |opts|
     options[:video_player] = 'omx'
   end
 
-  opts.on('-u', '--dlna', 'Autoplay with DLNA') do
-    options[:video_player] = 'dlna'
-  end
+  # opts.on('-u', '--dlna', 'Autoplay with DLNA') do
+  #   options[:video_player] = 'dlna'
+  # end
 
   opts.on('-t SUBTITLE_FILE', '--subtitles SUBTITLE_FILE', 'Use local subtitles') do |t|
     options[:subtitles] = t
@@ -101,14 +101,13 @@ begin
   # Choose link and subtitles
   link, sub_file = commands.choose_video_and_subtitles(torrent_search, options)
 
-  # Peerflix command build
-  command = "peerflix '#{link.magnet}'"
+  # Webtorrent command build
+  command = "webtorrent download '#{link.magnet}'"
   command << " --subtitles \"#{sub_file}\"" if sub_file
   command << " --#{options[:video_player]}" if options[:video_player]
-  command << ' -- --fullscreen' if %w(vlc mpv).include? options[:video_player]
 
-  # Execute peerflix
-  cli.say "Executing peerflix with #{link.filename.blue} ".yellow
+  # Execute webtorrent
+  cli.say "Executing webtorrent with #{link.filename.blue} ".yellow
   cli.say "and #{sub_file.blue}".yellow if sub_file
   system command
 rescue Interrupt, EOFError
@@ -118,7 +117,7 @@ rescue SocketError
 ensure
   # Cleaning up
   if link
-    cache_dir = "/tmp/torrent-stream/#{link.info_hash}"
+    cache_dir = "/tmp/webtorrent/#{link.info_hash}" if options[:video_player]
     video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
     FileUtils.mv(sub_file, File.dirname(video_file)) if sub_file && video_file
     cli.say "Your downloads will be in #{cache_dir.blue} #{'for 3 days :)'.yellow}".yellow
