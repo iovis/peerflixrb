@@ -14,21 +14,12 @@ options = {
 optparse = OptionParser.new do |opts|
   opts.banner = 'Usage: peerflixrb [options] <search>'
 
-  opts.on('-s', '--find-subtitles', 'Find subtitles') do
-    options[:find_subtitles] = true
-  end
-
-  opts.on('-S', '--choose-subtitles', 'Choose subtitles (only Addic7ed)') do
-    options[:find_subtitles] = true
-    options[:choose_subtitles] = true
+  opts.on('-y', '--auto-select', 'Select first match') do
+    options[:auto_select] = true
   end
 
   opts.on('-n', '--no-player', "Don't autoplay (just download)") do
     options[:video_player] = nil
-  end
-
-  opts.on('-y', '--auto-select', 'Select first match') do
-    options[:auto_select] = true
   end
 
   opts.on('-m', '--mplayer', 'Autoplay in mplayer*') do
@@ -47,13 +38,22 @@ optparse = OptionParser.new do |opts|
   #   options[:video_player] = 'dlna'
   # end
 
-  opts.on('-t SUBTITLE_FILE', '--subtitles SUBTITLE_FILE', 'Use local subtitles') do |t|
-    options[:subtitles] = t
+  opts.on('-s', '--find-subtitles', 'Find subtitles') do
+    options[:find_subtitles] = true
+  end
+
+  opts.on('-S', '--choose-subtitles', 'Choose subtitles (only Addic7ed)') do
+    options[:find_subtitles] = true
+    options[:choose_subtitles] = true
   end
 
   opts.on('-l LANGUAGE', '--language LANGUAGE', 'Language code to look subtitles for (default: English)') do |l|
     options[:find_subtitles] = true
     options[:language] = l
+  end
+
+  opts.on('-t SUBTITLE_FILE', '--subtitles SUBTITLE_FILE', 'Use local subtitles') do |t|
+    options[:subtitles] = t
   end
 
   opts.on('-v', '--version', 'Print version and exit') do
