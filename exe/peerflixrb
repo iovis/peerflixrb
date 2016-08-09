@@ -117,7 +117,13 @@ rescue SocketError
 ensure
   # Cleaning up
   if link
-    cache_dir = "/tmp/webtorrent/#{link.info_hash}" if options[:video_player]
+    cache_dir = if options[:video_player]
+                  "/tmp/webtorrent/#{link.info_hash}"
+                else
+                  # Current directory if download only
+                  Dir.pwd
+                end
+
     video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
     FileUtils.mv(sub_file, File.dirname(video_file)) if sub_file && video_file
     cli.say "Your downloads will be in #{cache_dir.blue} #{'for 3 days :)'.yellow}".yellow
