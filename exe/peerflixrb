@@ -34,9 +34,9 @@ optparse = OptionParser.new do |opts|
     options[:video_player] = 'omx'
   end
 
-  # opts.on('-u', '--dlna', 'Autoplay with DLNA') do
-  #   options[:video_player] = 'dlna'
-  # end
+  opts.on('-u', '--dlna', 'Autoplay with DLNA') do
+    options[:video_player] = 'dlna'
+  end
 
   opts.on('-s', '--find-subtitles', 'Find subtitles') do
     options[:find_subtitles] = true
