@@ -2,14 +2,14 @@
 
 # Peerflixrb
 
-Wrapper for [peerflix](https://github.com/mafintosh/peerflix) with automatic search through [Kickass Torrents](kat.cr), [YifySubtitles](http://www.yifysubtitles.com/) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed_downloader](https://github.com/iovis9/addic7ed_downloader)).
+Wrapper for [webtorrent-cli](https://github.com/feross/webtorrent-cli) with automatic search through [Zooqle](https://zooqle.com), [YifySubtitles](http://www.yifysubtitles.com/) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed_downloader](https://github.com/iovis9/addic7ed_downloader)).
 
 
 ## Requirements
 
-Make sure you have my fork of **peerflix** installed:
+Make sure you have **webtorrent-cli** installed:
 
-    $ npm install -g iovis9/peerflix
+    $ npm install -g webtorrent-cli
 
 
 ## Installation
@@ -20,16 +20,16 @@ Install the gem:
 
 ## Usage
 
-Pass a string with what you want to watch and it will search KAT with your query and present you with the first 5 results for you to choose. The file selected will then be sent to **peerflix**. For **TV Shows** use the format S01E01.
+Pass a string with what you want to watch and it will search Zooqle with your query and present you with the first 5 results for you to choose. The file selected will then be sent to **webtorrent**. For **TV Shows** use the format S01E01.
 
     $ peerflixrb Suits s05e12
     $ peerflixrb The Godfather II
 
 If you prefer to autoplay the first matched result, use the ```-y``` flag:
 
-    $ peerflixrb -y Archer s07e02 1080p
+    $ peerflixrb -y Archer s07e02
 
-You can play the video with subtitles with the ```-s``` option (Default: English). It will try and find the best match in [YifySubtitles](http://www.yifysubtitles.com/) if it's a movie and if [Addic7ed](http://www.addic7ed.com/) if it's a TV Show.
+You can play the video with subtitles with the ```-s``` option (Default: English). It will try and find the best match in [YifySubtitles](http://www.yifysubtitles.com/) if it's a movie, and in [Addic7ed](http://www.addic7ed.com/) if it's a TV Show.
 
     $ peerflixrb -s Birdman
     $ peerflixrb -s The Wire s04e05
@@ -46,7 +46,7 @@ If you prefer to use your own subtitles file, you can do that with the ```-t SUB
 
 You can autoplay in VLC or mpv with the corresponding option (Default: VLC).
 
-    $ peerflixrb --mpv The Big Bang Theory s09e16 HDTV
+    $ peerflixrb --mpv The Big Bang Theory s09e16
 
 It works with DLNA too with the ```-u``` option (subtitles too!).
 
@@ -55,8 +55,8 @@ Or you can just let it download without autoplaying with ```-n``` or ```--no-pla
 
 ## Cache
 
-The original peerflix takes care of cache so you can resume your downloads or watch them again.
-peerflixrb will tell you where they are located so you can do as you like or leave them there till your OS takes care of it (it's stored in /tmp).
+Webtorrent takes care of cache so you can resume your downloads or watch them again.
+peerflixrb will tell you where they are located so you can do as you like or leave them there till your OS takes care of it (it's stored in /tmp). When downloading with ```-n``` the output folder is the same peerflixrb was run.
 
 ## Contributing
 
