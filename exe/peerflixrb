@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), *%w( .. lib ))
 require 'optparse'
 require 'peerflixrb'
 require 'peerflixrb/commands'
-require 'zooqle_search'
+require 'extratorrent_search'
 
 options = {
   language: 'en',
@@ -90,7 +90,7 @@ begin
 
   # Torrent Search
   cli.say "Searching torrent for #{options[:search].blue}".yellow
-  torrent_search = ZooqleSearch::Search.new(options[:search])
+  torrent_search = ExtratorrentSearch::Search.new(options[:search])
 
   # Did it find results?
   unless torrent_search.results_found?
@@ -102,7 +102,7 @@ begin
   link, sub_file = commands.choose_video_and_subtitles(torrent_search, options)
 
   # Webtorrent command build
-  command = "webtorrent '#{link.magnet}'"
+  command = "webtorrent '#{link.magnet_link}'"
   command << " --subtitles \"#{sub_file}\"" if sub_file
   command << " --#{options[:video_player]}" if options[:video_player]
 
