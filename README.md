@@ -2,7 +2,7 @@
 
 # Peerflixrb
 
-Wrapper for [webtorrent-cli](https://github.com/feross/webtorrent-cli) with automatic search through [Zooqle](https://zooqle.com), [YifySubtitles](http://www.yifysubtitles.com/) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed_downloader](https://github.com/iovis9/addic7ed_downloader)).
+Wrapper for [webtorrent-cli](https://github.com/feross/webtorrent-cli) with automatic search through [Extratorrent](https://extratorrent.cc), [YifySubtitles](http://www.yifysubtitles.com/) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed_downloader](https://github.com/iovis9/addic7ed_downloader)).
 
 
 ## Requirements
@@ -20,7 +20,7 @@ Install the gem:
 
 ## Usage
 
-Pass a string with what you want to watch and it will search Zooqle with your query and present you with the first 5 results for you to choose. The file selected will then be sent to **webtorrent**. For **TV Shows** use the format S01E01.
+Pass a string with what you want to watch and it will search Extratorrent with your query and present you with the first 5 results for you to choose. The file selected will then be sent to **webtorrent**. For **TV Shows** use the format S01E01.
 
     $ peerflixrb Suits s05e12
     $ peerflixrb The Godfather II
