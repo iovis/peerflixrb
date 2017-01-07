@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), *%w( .. lib ))
 require 'optparse'
 require 'peerflixrb'
 require 'peerflixrb/commands'
-require 'extratorrent_search'
+require 'zooqle_search'
 
 options = {
   language: 'en',
@@ -90,7 +90,7 @@ begin
 
   # Torrent Search
   cli.say "Searching torrent for #{options[:search].blue}".yellow
-  torrent_search = ExtratorrentSearch::Search.new(options[:search])
+  torrent_search = ZooqleSearch::Search.new(options[:search])
 
   # Did it find results?
   unless torrent_search.results_found?
