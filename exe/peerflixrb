@@ -102,7 +102,7 @@ begin
   link, sub_file = commands.choose_video_and_subtitles(torrent_search, options)
 
   # Webtorrent command build
-  command = "webtorrent '#{link.magnet_link}'"
+  command = "webtorrent '#{link.magnet}'"
   command << " --subtitles \"#{sub_file}\"" if sub_file
   command << " --#{options[:video_player]}" if options[:video_player]
 
