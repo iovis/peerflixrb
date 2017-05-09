@@ -22,6 +22,11 @@ module Peerflixrb
       end
     end
 
+    def webtorrent
+      return "bin/webtorrent-cli-#{os}" if os
+      return 'webtorrent' if check_requirements
+    end
+
     def choose_video_and_subtitles(torrent_search, options)
       # Proactively declare them because they would be lost in the block scope
       link = nil
@@ -99,6 +104,15 @@ module Peerflixrb
       search.download_subtitle(subtitle)
     end
 
+    def os
+      case RbConfig::CONFIG['host_os'].downcase
+      when /linux/
+        'linux'
+      when /darwin/
+        'macos'
+      when /mswin|mingw/
+        'win.exe'
+      end
     end
   end
 end
