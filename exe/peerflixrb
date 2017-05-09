@@ -6,7 +6,7 @@ require 'zooqle_search'
 
 options = {
   language: 'en',
-  video_player: 'vlc'
+  video_player: 'mpv'
 }
 
 optparse = OptionParser.new do |opts|
@@ -34,6 +34,10 @@ optparse = OptionParser.new do |opts|
 
   opts.on('-u', '--dlna', 'Autoplay with DLNA') do
     options[:video_player] = 'dlna'
+  end
+
+  opts.on('-V', '--vlc', 'Autoplay in vlc*') do
+    options[:video_player] = 'vlc'
   end
 
   opts.on('-s', '--find-subtitles', 'Find subtitles') do
