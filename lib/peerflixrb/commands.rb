@@ -3,7 +3,7 @@ require 'highline'
 
 module Peerflixrb
   class Commands
-    attr_accessor :cli
+    attr_reader :cli
 
     def initialize
       @cli = HighLine.new
@@ -29,7 +29,7 @@ module Peerflixrb
 
       loop do
         # Choose file
-        link = (options[:auto_select]) ? torrent_search.links.first : select_link(torrent_search)
+        link = options[:auto_select] ? torrent_search.links.first : select_link(torrent_search)
 
         # Subtitle search
         sub_file = if options[:find_subtitles]
@@ -79,13 +79,14 @@ module Peerflixrb
         find_tv_subtitles(video_file, options)
       else
         movie = Imdb.find(options[:search])
-        find_movie_subtitles(movie, 'english')
+        YifySubtitles.download(movie.imdb_id, 'english')
       end
     end
 
     def find_tv_subtitles(video_file, options)
       # TV Show search based on video filename
-      search = Addic7edDownloader::Search.by_filename(options[:search], lang: options[:language])
+      search = Addic7edDownloader::Search.by_filename options[:search],
+                                                      lang: options[:language]
       search.extract_tags(video_file)
       return search.download_best unless options[:choose_subtitles]
 
@@ -98,9 +99,6 @@ module Peerflixrb
       search.download_subtitle(subtitle)
     end
 
-    def find_movie_subtitles(movie, language)
-      sub_file = YifySubtitles.download(movie.imdb_id, language)
-      return sub_file unless sub_file.nil?
     end
   end
 end
