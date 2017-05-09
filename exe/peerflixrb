@@ -2,7 +2,6 @@
 
 require 'optparse'
 require 'peerflixrb'
-require 'peerflixrb/commands'
 require 'zooqle_search'
 
 options = {
