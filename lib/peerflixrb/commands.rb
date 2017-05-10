@@ -1,6 +1,8 @@
 require 'addic7ed_downloader'
 require 'highline'
 
+BINARY_PATH = File.join(File.dirname(__FILE__), %w(.. .. bin))
+
 module Peerflixrb
   class Commands
     attr_reader :cli
@@ -23,7 +25,7 @@ module Peerflixrb
     end
 
     def webtorrent
-      return "bin/webtorrent-cli-#{os}" if os
+      return "#{BINARY_PATH}/webtorrent-cli-#{os}" if os
       return 'webtorrent' if check_requirements
     end
 
