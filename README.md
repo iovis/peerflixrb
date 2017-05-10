@@ -2,14 +2,7 @@
 
 # Peerflixrb
 
-Wrapper for [webtorrent-cli](https://github.com/feross/webtorrent-cli) with automatic search through [Extratorrent](https://extratorrent.cc), [YifySubtitles](http://www.yifysubtitles.com/) and [Addic7ed](http://www.addic7ed.com/) (with [gem addic7ed_downloader](https://github.com/iovis9/addic7ed_downloader)).
-
-
-## Requirements
-
-Make sure you have **webtorrent-cli** installed:
-
-    $ npm install -g webtorrent-cli
+Wrapper for [webtorrent-cli](https://github.com/feross/webtorrent-cli) with automatic search through [Zooqle](https://zooqle.com), [YifySubtitles](http://www.yifysubtitles.com/) and [Addic7ed](http://www.addic7ed.com/).
 
 
 ## Installation
@@ -44,13 +37,13 @@ If you prefer to use your own subtitles file, you can do that with the ```-t SUB
 
     $ peerflixrb Better Call Saul s02e04 -t subtitle_file.srt
 
-You can autoplay in VLC or mpv with the corresponding option (Default: VLC).
+You can autoplay in your favourite player with the corresponding option (Default: mpv).
 
     $ peerflixrb --mpv The Big Bang Theory s09e16
 
 It works with DLNA too with the ```-u``` option (subtitles too!).
 
-Or you can just let it download without autoplaying with ```-n``` or ```--no-player```.
+If you prefer to let it download without autoplaying use the option ```-n``` or ```--no-player```.
 
 
 ## Cache
