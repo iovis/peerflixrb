@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'highline/import'
 require 'optparse'
 require 'peerflixrb'
 require 'zooqle_search'
@@ -85,18 +86,17 @@ end
 # main program
 begin
   commands = Peerflixrb::Commands.new
-  cli = commands.cli
 
   # Check requirements
   webtorrent = commands.webtorrent
 
   # Torrent Search
-  cli.say "Searching torrent for #{options[:search].blue}".yellow
+  say "Searching torrent for #{options[:search].blue}".yellow
   torrent_search = ZooqleSearch::Search.new(options[:search])
 
   # Did it find results?
   unless torrent_search.results_found?
-    cli.say "No results found for #{options[:search].blue}".red
+    say "No results found for #{options[:search].blue}".red
     exit
   end
 
@@ -109,13 +109,13 @@ begin
   command << " --#{options[:video_player]}" if options[:video_player]
 
   # Execute webtorrent
-  cli.say "Executing webtorrent with #{link.filename.blue} ".yellow
-  cli.say "and #{sub_file.blue}".yellow if sub_file
+  say "Executing webtorrent with #{link.filename.blue} ".yellow
+  say "and #{sub_file.blue}".yellow if sub_file
   system command
 rescue Interrupt, EOFError
-  cli.say 'Interrupted!'.red
+  say 'Interrupted!'.red
 rescue SocketError
-  cli.say "Couldn't perform action. Are you online?".red
+  say "Couldn't perform action. Are you online?".red
 ensure
   # Cleaning up
   if link
@@ -128,6 +128,6 @@ ensure
 
     video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
     FileUtils.mv(sub_file, File.dirname(video_file)) if sub_file && video_file
-    cli.say "Your downloads will be in #{cache_dir.blue} #{'for 3 days :)'.yellow}".yellow
+    say "Your downloads will be in #{cache_dir.blue} #{'for 3 days :)'.yellow}".yellow
   end
 end

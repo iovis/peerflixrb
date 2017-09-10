@@ -1,25 +1,22 @@
 require 'addic7ed_downloader'
-require 'highline'
+require 'highline/import'
 
 BINARY_PATH = File.join(File.dirname(__FILE__), %w(.. .. bin))
 
 module Peerflixrb
   class Commands
-    attr_reader :cli
-
     def initialize
-      @cli = HighLine.new
       HighLine.colorize_strings
     end
 
     def check_requirements
       unless system('node --version > /dev/null 2>&1')
-        cli.say 'Nodejs is required to make it work.'.red
+        say 'Nodejs is required to make it work.'.red
         exit
       end
 
       unless system('webtorrent --version > /dev/null 2>&1')
-        cli.say 'webtorrent is required. Type "npm install -g webtorrent-cli" in your shell to install it.'.red
+        say 'webtorrent is required. Type "npm install -g webtorrent-cli" in your shell to install it.'.red
         exit
       end
     end
@@ -40,7 +37,7 @@ module Peerflixrb
 
         # Subtitle search
         sub_file = if options[:find_subtitles]
-                     cli.say "Searching subtitles for #{link.filename.blue}".yellow
+                     say "Searching subtitles for #{link.filename.blue}".yellow
                      find_subtitles(link.filename, options)
                    elsif options[:subtitles]
                      options[:subtitles]
@@ -48,7 +45,7 @@ module Peerflixrb
 
         # Was there a problem with the subtitle?
         if options[:find_subtitles] && sub_file.nil?
-          continue = cli.agree "Could not find subtitles. Do you want to continue? #{'[y/n]'.yellow}".blue
+          continue = agree "Could not find subtitles. Do you want to continue? #{'[y/n]'.yellow}".blue
 
           unless continue
             # If :auto_select, exit program
@@ -72,9 +69,9 @@ module Peerflixrb
     private
 
     def select_link(torrent_search)
-      cli.say "Choose file (#{'seeders'.green}/#{'leechers'.red}):"
+      say "Choose file (#{'seeders'.green}/#{'leechers'.red}):"
 
-      cli.choose(*torrent_search.links) do |menu|
+      choose(*torrent_search.links) do |menu|
         menu.default = '1'
         menu.select_by = :index
       end
@@ -98,7 +95,7 @@ module Peerflixrb
       return search.download_best unless options[:choose_subtitles]
 
       # Choose subtitle
-      subtitle = cli.choose(*search.results) do |menu|
+      subtitle = choose(*search.results) do |menu|
         menu.default = '1'
         menu.select_by = :index
       end
