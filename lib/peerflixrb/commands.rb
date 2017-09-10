@@ -1,25 +1,22 @@
 require 'addic7ed_downloader'
-require 'highline'
+require 'highline/import'
 
 BINARY_PATH = File.join(File.dirname(__FILE__), %w(.. .. bin))
 
 module Peerflixrb
   class Commands
-    attr_reader :cli
-
     def initialize
-      @cli = HighLine.new
       HighLine.colorize_strings
     end
 
     def check_requirements
       unless system('node --version > /dev/null 2>&1')
-        cli.say 'Nodejs is required to make it work.'.red
+        say 'Nodejs is required to make it work.'.red
         exit
       end
 
       unless system('webtorrent --version > /dev/null 2>&1')
-        cli.say 'webtorrent is required. Type "npm install -g webtorrent-cli" in your shell to install it.'.red
+        say 'webtorrent is required. Type "npm install -g webtorrent-cli" in your shell to install it.'.red
         exit
       end
     end
@@ -29,26 +26,28 @@ module Peerflixrb
       return 'webtorrent' if check_requirements
     end
 
-    def choose_video_and_subtitles(torrent_search, options)
+    def choose_video_and_subtitles(search_result, options)
       # Proactively declare them because they would be lost in the block scope
-      link = nil
+      link     = nil
+      links    = search_result.links.sort.reverse
       sub_file = nil
 
       loop do
         # Choose file
-        link = options[:auto_select] ? torrent_search.links.first : select_link(torrent_search)
+        link = options[:auto_select] ? links.first : select_link(links)
 
         # Subtitle search
         sub_file = if options[:find_subtitles]
-                     cli.say "Searching subtitles for #{link.filename.blue}".yellow
-                     find_subtitles(link.filename, options)
+                     # TODO
+                     say "Searching subtitles for #{link.title.blue}".yellow
+                     find_subtitles(link, options)
                    elsif options[:subtitles]
                      options[:subtitles]
                    end
 
         # Was there a problem with the subtitle?
         if options[:find_subtitles] && sub_file.nil?
-          continue = cli.agree "Could not find subtitles. Do you want to continue? #{'[y/n]'.yellow}".blue
+          continue = agree "Could not find subtitles. Do you want to continue? #{'[y/n]'.yellow}".blue
 
           unless continue
             # If :auto_select, exit program
@@ -71,39 +70,33 @@ module Peerflixrb
 
     private
 
-    def select_link(torrent_search)
-      cli.say "Choose file (#{'seeders'.green}/#{'leechers'.red}):"
-
-      cli.choose(*torrent_search.links) do |menu|
+    def select_link(links)
+      say "Choose file (#{'seeders'.green}/#{'leechers'.red}):"
+      choose(*links) do |menu|
         menu.default = '1'
         menu.select_by = :index
       end
     end
 
-    def find_subtitles(video_file, options)
-      # Matches format 's06e02'? => TV Show
-      if options[:search][/s\d{1,2}e\d{1,2}/i]
-        find_tv_subtitles(video_file, options)
-      else
-        movie = Imdb.find(options[:search])
-        YifySubtitles.download(movie.imdb_id, 'english')
+    def find_subtitles(link, options)
+      case options[:kind]
+      when :movie
+        YifySubtitles.download(link.imdb_id, 'english')
+      when :show
+        filename = link.filename || link.title
+        search = Addic7edDownloader::Search.by_filename(filename, lang: options[:language])
+
+        return search.download_best unless options[:choose_subtitles]
+
+        # Choose subtitle
+        say "Choose subtitles for #{filename.blue}:".yellow
+        subtitle = choose(*search.results) do |menu|
+          menu.default = '1'
+          menu.select_by = :index
+        end
+
+        search.download_subtitle(subtitle)
       end
-    end
-
-    def find_tv_subtitles(video_file, options)
-      # TV Show search based on video filename
-      search = Addic7edDownloader::Search.by_filename options[:search],
-                                                      lang: options[:language]
-      search.extract_tags(video_file)
-      return search.download_best unless options[:choose_subtitles]
-
-      # Choose subtitle
-      subtitle = cli.choose(*search.results) do |menu|
-        menu.default = '1'
-        menu.select_by = :index
-      end
-
-      search.download_subtitle(subtitle)
     end
 
     def os

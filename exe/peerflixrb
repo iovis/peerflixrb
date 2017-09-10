@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
 
+require 'highline/import'
 require 'optparse'
 require 'peerflixrb'
-require 'zooqle_search'
+require 'popcorntime_search'
 
 options = {
   language: 'en',
@@ -85,23 +86,40 @@ end
 # main program
 begin
   commands = Peerflixrb::Commands.new
-  cli = commands.cli
 
   # Check requirements
   webtorrent = commands.webtorrent
 
-  # Torrent Search
-  cli.say "Searching torrent for #{options[:search].blue}".yellow
-  torrent_search = ZooqleSearch::Search.new(options[:search])
+  # Search
+  say "Searching torrent for #{options[:search].blue}".yellow
+  search = PopcorntimeSearch::Search.new(options[:search])
 
   # Did it find results?
-  unless torrent_search.results_found?
-    cli.say "No results found for #{options[:search].blue}".red
+  unless search.results_found?
+    say "No results found for #{options[:search].blue}".red
+    exit
+  end
+
+  # If 'auto' or only one result, pick the first/only one
+  if options[:auto] || search.results.one?
+    search_result = search.results.first
+  else
+    # If there are several matches, choose the appropriate one
+    say "Search results for #{options[:search].blue}:".yellow
+    search_result = choose(*search.results) do |menu|
+      menu.default = '1'
+      menu.select_by = :index
+    end
+  end
+
+  if search_result.links.empty?
+    say 'No results found'.red
     exit
   end
 
   # Choose link and subtitles
-  link, sub_file = commands.choose_video_and_subtitles(torrent_search, options)
+  options[:kind] = search_result.kind
+  link, sub_file = commands.choose_video_and_subtitles(search_result, options)
 
   # Webtorrent command build
   command = "#{webtorrent} '#{link.magnet}'"
@@ -109,13 +127,13 @@ begin
   command << " --#{options[:video_player]}" if options[:video_player]
 
   # Execute webtorrent
-  cli.say "Executing webtorrent with #{link.filename.blue} ".yellow
-  cli.say "and #{sub_file.blue}".yellow if sub_file
+  say "Executing webtorrent with #{link.title.blue} ".yellow
+  say "and #{sub_file.blue}".yellow if sub_file
   system command
 rescue Interrupt, EOFError
-  cli.say 'Interrupted!'.red
+  say 'Interrupted!'.red
 rescue SocketError
-  cli.say "Couldn't perform action. Are you online?".red
+  say "Couldn't perform action. Are you online?".red
 ensure
   # Cleaning up
   if link
@@ -128,6 +146,6 @@ ensure
 
     video_file = Dir["#{cache_dir}/**/*.{mkv,mp4,avi,wmv,mpg,flv,mov}"].first
     FileUtils.mv(sub_file, File.dirname(video_file)) if sub_file && video_file
-    cli.say "Your downloads will be in #{cache_dir.blue} #{'for 3 days :)'.yellow}".yellow
+    say "Your downloads will be in #{cache_dir.blue} #{'for 3 days :)'.yellow}".yellow
   end
 end
