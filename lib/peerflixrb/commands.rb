@@ -84,9 +84,26 @@ module Peerflixrb
         YifySubtitles.download(link.imdb_id, 'english')
       when :show
         filename = link.filename || link.title
-        search = Addic7edDownloader::Search.by_filename(filename, lang: options[:language])
 
-        return search.download_best unless options[:choose_subtitles]
+        # Try to download by filename
+        if link.filename
+          search = Addic7edDownloader::Search.by_filename(link.filename, lang: options[:language])
+
+          unless options[:choose_subtitles]
+            return search.download_best if search.download_best
+          end
+        end
+
+        # Try to download by title (Archer has problems with this because it usually
+        # appears as "Archer 2009 - 02x03", which gives Addic7ed API problems)
+        if search.nil? || search.results.empty?
+          search = Addic7edDownloader::Search.by_filename(link.title, lang: options[:language])
+          search.extract_tags(link.filename) if link.filename
+
+          unless options[:choose_subtitles]
+            return search.download_best if search.download_best
+          end
+        end
 
         # Choose subtitle
         say "Choose subtitles for #{filename.blue}:".yellow
