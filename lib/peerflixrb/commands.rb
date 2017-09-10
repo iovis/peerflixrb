@@ -89,7 +89,7 @@ module Peerflixrb
         return search.download_best unless options[:choose_subtitles]
 
         # Choose subtitle
-        say "Choose subtitles for #{filename.blue}:"
+        say "Choose subtitles for #{filename.blue}:".yellow
         subtitle = choose(*search.results) do |menu|
           menu.default = '1'
           menu.select_by = :index
