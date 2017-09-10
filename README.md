@@ -2,7 +2,7 @@
 
 # Peerflixrb
 
-Wrapper for [webtorrent-cli](https://github.com/feross/webtorrent-cli) with automatic search through [Zooqle](https://zooqle.com), [YifySubtitles](http://www.yifysubtitles.com/) and [Addic7ed](http://www.addic7ed.com/).
+Wrapper for [webtorrent-cli](https://github.com/feross/webtorrent-cli) with automatic search through [Popcorn Time](https://github.com/popcorn-official/popcorn-api), [YifySubtitles](http://www.yifysubtitles.com/) and [Addic7ed](http://www.addic7ed.com/).
 
 
 ## Installation
