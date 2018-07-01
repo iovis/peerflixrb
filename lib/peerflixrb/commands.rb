@@ -10,20 +10,29 @@ module Peerflixrb
     end
 
     def check_requirements
-      unless system('node --version > /dev/null 2>&1')
+      unless node_installed?
         say 'Nodejs is required to make it work.'.red
         exit
       end
 
-      unless system('webtorrent --version > /dev/null 2>&1')
+      unless webtorrent_installed?
         say 'webtorrent is required. Type "npm install -g webtorrent-cli" in your shell to install it.'.red
         exit
       end
     end
 
     def webtorrent
+      return 'webtorrent' if webtorrent_installed?
       return "#{BINARY_PATH}/webtorrent-cli-#{os}" if os
-      return 'webtorrent' if check_requirements
+      check_requirements
+    end
+
+    def node_installed?
+      system('node --version > /dev/null 2>&1')
+    end
+
+    def webtorrent_installed?
+      system('webtorrent --version > /dev/null 2>&1')
     end
 
     def choose_video_and_subtitles(search_result, options)
