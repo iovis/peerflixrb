@@ -25,6 +25,10 @@ optparse = OptionParser.new do |opts|
     options[:video_player] = 'mplayer'
   end
 
+  opts.on('-i', '--iina', 'Autoplay in iina*') do
+    options[:video_player] = 'iina'
+  end
+
   opts.on('-k', '--mpv', 'Autoplay in mpv* (Default)') do
     options[:video_player] = 'mpv'
   end
