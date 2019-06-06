@@ -1,4 +1,4 @@
-[![Gem Version](https://badge.fury.io/rb/peerflixrb.svg)](https://badge.fury.io/rb/peerflixrb) [![Build Status](https://travis-ci.org/iovis9/peerflixrb.svg?branch=master)](https://travis-ci.org/iovis9/peerflixrb) [![Dependency Status](https://gemnasium.com/badges/github.com/iovis9/peerflixrb.svg)](https://gemnasium.com/github.com/iovis9/peerflixrb)
+[![Gem Version](https://badge.fury.io/rb/peerflixrb.svg)](https://badge.fury.io/rb/peerflixrb) [![Build Status](https://travis-ci.org/iovis/peerflixrb.svg?branch=master)](https://travis-ci.org/iovis/peerflixrb)
 
 # Peerflixrb
 
@@ -53,7 +53,7 @@ peerflixrb will tell you where they are located so you can do as you like or lea
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/iovis9/peerflixrb.
+Bug reports and pull requests are welcome on GitHub at https://github.com/iovis/peerflixrb.
 
 
 ## License

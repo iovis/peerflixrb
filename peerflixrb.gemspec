@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Wrapper for peerflix with automatic search through KickAss Torrents, Yifysubtitles and Addic7ed.'
   spec.description   = %q{With peerflixrb you can search for movies and TV shows and stream them directly on your favorite video player! You can choose the torrent and the subtitles file or you can let it choose the best for you.}
-  spec.homepage      = 'https://github.com/iovis9/peerflixrb'
+  spec.homepage      = 'https://github.com/iovis/peerflixrb'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
