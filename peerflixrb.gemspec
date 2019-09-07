@@ -20,17 +20,18 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'addic7ed_downloader', '~> 1.0'
-  spec.add_runtime_dependency 'popcorntime_search', '~> 1.0'
-  spec.add_runtime_dependency 'nokogiri', '~> 1.8'
   spec.add_runtime_dependency 'highline', '~> 2.0'
   spec.add_runtime_dependency 'httparty', '~> 0.15'
+  spec.add_runtime_dependency 'nokogiri', '~> 1.8'
+  spec.add_runtime_dependency 'popcorntime_search', '~> 1.2'
   spec.add_runtime_dependency 'rubyzip', '~> 1.2'
 
+  spec.add_development_dependency 'awesome_print'
   spec.add_development_dependency 'bundler', '~> 1.15'
-  spec.add_development_dependency 'rake', '~> 12.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'guard-rspec', '~> 4.6'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'pry-byebug'
-  spec.add_development_dependency 'awesome_print'
+  spec.add_development_dependency 'rake', '~> 12.0'
+  spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'solargraph'
 end
